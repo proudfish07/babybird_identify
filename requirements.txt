@@ -1,3 +1,4 @@
-flask
-ultralytics
-Pillow
+gradio
+onnxruntime
+pillow
+numpy
