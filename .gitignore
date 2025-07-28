@@ -1,0 +1,6 @@
+__pycache__/
+.ipynb_checkpoints/
+*.onnx
+*.pt
+*.h5
+.env
