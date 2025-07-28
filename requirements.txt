@@ -1,4 +1,3 @@
-gradio
-onnxruntime
-pillow
-numpy
+flask
+ultralytics
+Pillow
