@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>動物辨識網站</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <h1>台灣野生動物辨識</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required>
+        <button type="submit">辨識圖片</button>
+    </form>
+    {% if result_image %}
+        <h2>辨識結果：</h2>
+        <img src="{{ result_image }}" width="500">
+    {% endif %}
+</body>
+</html>
