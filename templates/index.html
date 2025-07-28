@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>野生動物辨識</title>
+</head>
+<body>
+  <h1>上傳圖片進行辨識</h1>
+  <form action="/predict" method="post" enctype="multipart/form-data">
+    <input type="file" name="image">
+    <input type="submit" value="辨識">
+  </form>
+  {% if result_image %}
+    <h2>預測結果：</h2>
+    <img src="{{ url_for('static', filename=result_image) }}" width="640">
+  {% endif %}
+</body>
+</html>
