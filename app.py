@@ -1,36 +1,32 @@
 from flask import Flask, render_template, request
 from ultralytics import YOLO
-import os
 from PIL import Image
-import uuid
+import os
 
 app = Flask(__name__)
-model = YOLO('yoloweight.pt')  # 換成你自己的模型檔名
-
-UPLOAD_FOLDER = 'static/uploads'
-RESULT_FOLDER = 'static/results'
+model = YOLO("yolov8_model.pt")  # 載入你的模型
+UPLOAD_FOLDER = "uploads"
+OUTPUT_PATH = "static/output.jpg"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(RESULT_FOLDER, exist_ok=True)
 
-@app.route('/')
+@app.route("/", methods=["GET"])
 def index():
-    return render_template('index.html')
+    return render_template("index.html", result_image=None)
 
-@app.route('/predict', methods=['POST'])
+@app.route("/predict", methods=["POST"])
 def predict():
-    img_file = request.files['image']
-    if img_file:
-        filename = f"{uuid.uuid4().hex}.jpg"
-        input_path = os.path.join(UPLOAD_FOLDER, filename)
-        result_path = os.path.join(RESULT_FOLDER, filename)
-        img_file.save(input_path)
+    if "image" not in request.files:
+        return "沒有選擇圖片"
 
-        # YOLO 預測
-        results = model.predict(source=input_path, save=True, save_txt=False, save_conf=True, project=RESULT_FOLDER, name='', exist_ok=True)
+    file = request.files["image"]
+    img_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    file.save(img_path)
 
-        return render_template('index.html', result_image=os.path.join('results', filename))
+    # 執行 YOLO 預測
+    results = model(img_path)
+    results[0].save(filename=OUTPUT_PATH)
 
-    return 'No image uploaded'
+    return render_template("index.html", result_image=OUTPUT_PATH)
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
