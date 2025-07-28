@@ -1,0 +1,13 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 2em;
+    background: #f7f7f7;
+}
+form {
+    margin-top: 1em;
+}
+img {
+    margin-top: 2em;
+    border: 2px solid #444;
+}
